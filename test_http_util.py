@@ -20,8 +20,8 @@ def test_extract_page_urls():
     link_selector = "a:eq(0)"
 
     urls = list(extract_page_urls(page_url,
-                                   link_parent_selector,
-                                   link_selector))
+                                  link_parent_selector,
+                                  link_selector))
     actual = len(urls)
     expected = 360
 
@@ -33,7 +33,7 @@ def test_extract_content():
     content_selector = "div.main p.abstract"
 
     actual = extract_content(url, content_selector).strip()
-    expected = u"""We introduce the Randomized Dependence Coefficient (RDC), a measure of non-linear dependence between random variables of arbitrary dimension based on the Hirschfeld-Gebelein-Rényi Maximum Correlation Coefficient. RDC is defined in terms of correlation of random non-linear copula projections; it is invariant with respect to marginal distribution transformations, has low computational cost and is easy to implement: just five lines of R code, included at the end of the paper."""
+    expected = u"We introduce the Randomized Dependence Coefficient (RDC), a measure of non-linear dependence between random variables of arbitrary dimension based on the Hirschfeld-Gebelein-R\xc3\xa9nyi Maximum Correlation Coefficient. RDC is defined in terms of correlation of random non-linear copula projections; it is invariant with respect to marginal distribution transformations, has low computational cost and is easy to implement: just five lines of R code, included at the end of the paper."
     
     print actual
     print expected
