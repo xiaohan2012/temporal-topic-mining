@@ -1,6 +1,6 @@
 #! /bin/bash
 
-years=(2014 2012 2011 2010)
+years=(2008 2009)
 
 for year in ${years[@]}; do
 	echo "Downloading urls of ${year}..."

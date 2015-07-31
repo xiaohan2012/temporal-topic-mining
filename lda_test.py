@@ -13,8 +13,8 @@ from util import load_line_corpus
 def main():
     # parameters
     collection_name = "nips"
-    years = xrange(2010, 2015)  # 10 ~ 14
-    n_topics = 6
+    years = xrange(2008, 2015)  # 10 ~ 14
+    n_topics = 10
     n_top_words = 15
     
     # load corpus
@@ -40,8 +40,7 @@ def main():
     vectorizer = CountVectorizer(preprocessor=preprocessor,
                                  tokenizer=tokenizer,
                                  stop_words=stop_words,
-                                 min_df=5,
-                                 max_df=750)
+                                 min_df=5)
 
     X = vectorizer.fit_transform(all_corpus)
 
