@@ -1,11 +1,48 @@
+import itertools
 import numpy as np
+
+
+def doc_topic_strengths_over_periods(doc_topic_matrix, period2docs):
+    """
+    Calculate topic strengths over different periods
+    
+    Topical strength is accumulated based on *document topic probability*
+    over the documents with each period
+    
+
+    Parameter:
+    -----------
+    doc_topic_matrix: numpy.ndarray
+        topic distribution for each topic
+        shape: (#documents, #topics)
+
+    period2docs: dict<str, list<int>>
+        mapping from period to document ids
+    
+    Return:
+    ----------
+    dict<int, numpy.ndarray>
+        mapping from period to topic strengths during that period
+        topic_strengths shape: (n_topics, )
+    """
+    assert doc_topic_matrix.shape[0] == \
+        sum(map(lambda lst: len(lst), period2docs.values()))
+    
+    result = {}
+    for p, docs in period2docs.items():
+        result[p] = doc_topic_matrix[docs].mean(axis=0)
+
+    return result
 
 
 def strengths_over_periods(period2matrix, topic_word_distribution,
                            n_top_words=15):
     """
     Calculate topic strengths over different periods
-
+    
+    Topical strength is accumulated based on *word probability*
+    over the documents with each period
+    
     Parameters:
     ------------
     period2matrix: dict<hashable -> (numpy.ndarray | scipy sparse matrix)>
@@ -20,7 +57,7 @@ def strengths_over_periods(period2matrix, topic_word_distribution,
 
     Returns:
     ------------
-    dict<int -> numpy.ndarray>
+    dict<int, numpy.ndarray>
         mapping from period to topic strengths during that period
         topic_strengths shape: (n_topics, )
     """

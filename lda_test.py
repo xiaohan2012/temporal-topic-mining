@@ -2,7 +2,7 @@ import lda
 import itertools
 import numpy as np
 import codecs
-from temporal import strengths_over_periods
+from temporal import doc_topic_strengths_over_periods
 
 from sklearn.feature_extraction.text import CountVectorizer
 
@@ -14,7 +14,7 @@ def main():
     # parameters
     collection_name = "nips"
     years = xrange(2008, 2015)  # 10 ~ 14
-    n_topics = 10
+    n_topics = 6
     n_top_words = 15
     
     # load corpus
@@ -48,7 +48,7 @@ def main():
                for word, id_ in vectorizer.vocabulary_.items()}
     
     # build the model
-    model = lda.LDA(n_topics=n_topics, n_iter=500,
+    model = lda.LDA(n_topics=n_topics, n_iter=700,
                     # alpha=1.0, eta=1.0,
                     random_state=1)
     model.fit(X)
@@ -59,17 +59,17 @@ def main():
         topic_words = [id2word[id_] for id_ in top_word_ids]
         print('Topic {}: {}'.format(i, ' '.join(topic_words)))
         
-    year2matrix = {}
+    year2docs = {}
     start_document_index = 0
 
     for year in years:
         corpus_size = len(year2corpus[year])
         end_document_index = start_document_index + corpus_size
-        year2matrix[year] = X[start_document_index: end_document_index, :]
+        year2docs[year] = np.arange(start_document_index, end_document_index)
         start_document_index = end_document_index
 
-    tbl = strengths_over_periods(year2matrix, model.topic_word_,
-                                 n_top_words=50)
+    tbl = doc_topic_strengths_over_periods(model.doc_topic_, year2docs)
+    print tbl
     print np.array(tbl.values())
 
 if __name__ == "__main__":

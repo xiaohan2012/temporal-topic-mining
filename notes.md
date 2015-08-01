@@ -5,6 +5,12 @@ Some topic might evolve over time
 
 1. might be too specific?
 
-- nShould I smooth the effect of very high probability words?
+## Observed problems
 - The learned topic model seems not very good
-- There is always a increas from 2008 to 2009
+
+
+## Different generative models
+
+For now, the standard LDA is used which assumes the same topic generation probability across all periods
+
+Can we use *different topic generation probabilities* across different periods while imposing constraints on them?
